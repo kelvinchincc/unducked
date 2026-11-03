@@ -4,18 +4,32 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-use crate::{api_errors, controller::ApiTag};
+use crate::{
+    api_errors,
+    controller::ApiTag,
+    service::search_engine_provider_service::{self, SearchEngineProvidier},
+};
 use color_eyre::eyre::Result;
-use poem_openapi::{OpenApi, payload::PlainText};
+use poem_openapi::{ApiResponse, OpenApi, param::Query};
 
 pub struct SearchController;
 
 #[OpenApi(tag = "ApiTag::SearchController", prefix_path = "/search")]
 impl SearchController {
     #[oai(path = "/", method = "get")]
-    pub async fn search(&self) -> Result<PlainText<String>, SearchQueryError> {
-        Ok(PlainText("Search results".to_string()))
+    pub async fn search(&self, q: Query<String>) -> Result<SearchQueryResponse, SearchQueryError> {
+        let search_engine = SearchEngineProvidier::default();
+        let url = search_engine_provider_service::get_search_engine_url(search_engine, &q.0);
+
+        // Redirect to the search engine URL
+        Ok(SearchQueryResponse::MovedPermanently(url))
     }
 }
 
 api_errors!(pub SearchQueryError { BadRequest = 400 => "Invalid search query" });
+
+#[derive(ApiResponse)]
+pub enum SearchQueryResponse {
+    #[oai(status = 301)]
+    MovedPermanently(#[oai(header = "Location")] String),
+}

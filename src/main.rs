@@ -10,6 +10,7 @@ use poem_openapi::OpenApiService;
 mod controller;
 mod dto;
 mod error;
+mod service;
 mod types;
 
 const API_VERSION: &str = "1.0";
