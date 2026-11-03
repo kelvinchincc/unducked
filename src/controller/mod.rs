@@ -4,12 +4,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-pub mod todo;
+pub mod search;
 
 use poem_openapi::Tags;
 
 #[derive(Tags)]
 enum ApiTag {
-    #[oai(rename = "Todo Controller")]
-    TodoController,
+    #[oai(rename = "Search Controller")]
+    SearchController,
 }

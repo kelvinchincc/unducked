@@ -20,12 +20,11 @@ const API_IP: &str = "0.0.0.0:3000";
 async fn main() -> Result<()> {
     init_env()?;
 
-    let api_service = OpenApiService::new(controller::todo::TodoController, API_TITLE, API_VERSION)
-        .server("/api");
+    let api_service =
+        OpenApiService::new(controller::search::SearchController, API_TITLE, API_VERSION)
+            .server("/");
     let ui = api_service.swagger_ui();
-    let app = poem::Route::new()
-        .nest("/docs", ui)
-        .nest("/api", api_service);
+    let app = poem::Route::new().nest("/docs", ui).nest("/", api_service);
     poem::Server::new(poem::listener::TcpListener::bind(API_IP))
         .run(app)
         .await?;
