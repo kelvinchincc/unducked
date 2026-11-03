@@ -5,7 +5,7 @@
  */
 
 use color_eyre::Result;
-use poem::endpoint::StaticFilesEndpoint;
+use poem::{Response, endpoint::StaticFilesEndpoint, get, handler, http::header};
 use poem_openapi::OpenApiService;
 
 mod constants;
@@ -30,6 +30,7 @@ async fn main() -> Result<()> {
     let app = poem::Route::new()
         .nest("/docs", ui)
         .nest("/search", api_service)
+        .at("/opensearch.xml", get(opensearch_xml))
         .nest(
             "/",
             StaticFilesEndpoint::new(concat!(env!("CARGO_MANIFEST_DIR"), "/static"))
@@ -40,6 +41,33 @@ async fn main() -> Result<()> {
         .await?;
 
     Ok(())
+}
+
+#[handler]
+fn opensearch_xml() -> Response {
+    let xml = format!(
+        r#"<?xml version="1.0" encoding="UTF-8" ?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+    <ShortName>Unducked</ShortName>
+    <Description>Search engine redirector</Description>
+    <InputEncoding>UTF-8</InputEncoding>
+    <!-- Replace the host with your deployed root address. OpenSearch requires an absolute URL. -->
+    <Url type="text/html" method="get" template="http://localhost:3000/search?q={{searchTerms}}" />
+    <Url
+        type="application/x-suggestions+json"
+        method="get"
+        template="https://duckduckgo.com/ac/?q={{searchTerms}}&amp;type=list"
+    />
+
+</OpenSearchDescription>"#
+    );
+
+    Response::builder()
+        .header(
+            header::CONTENT_TYPE,
+            "application/opensearchdescription+xml",
+        )
+        .body(xml)
 }
 
 fn init_env() -> Result<()> {
