@@ -5,6 +5,7 @@
  */
 
 use color_eyre::Result;
+use poem::endpoint::StaticFilesEndpoint;
 use poem_openapi::OpenApiService;
 
 mod constants;
@@ -24,9 +25,16 @@ async fn main() -> Result<()> {
 
     let api_service =
         OpenApiService::new(controller::search::SearchController, API_TITLE, API_VERSION)
-            .server("/");
+            .server("/search");
     let ui = api_service.swagger_ui();
-    let app = poem::Route::new().nest("/docs", ui).nest("/", api_service);
+    let app = poem::Route::new()
+        .nest("/docs", ui)
+        .nest("/search", api_service)
+        .nest(
+            "/",
+            StaticFilesEndpoint::new(concat!(env!("CARGO_MANIFEST_DIR"), "/static"))
+                .index_file("index.html"),
+        );
     poem::Server::new(poem::listener::TcpListener::bind(API_IP))
         .run(app)
         .await?;

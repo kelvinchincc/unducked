@@ -14,7 +14,7 @@ use poem_openapi::{ApiResponse, OpenApi, param::Query};
 
 pub struct SearchController;
 
-#[OpenApi(tag = "ApiTag::SearchController", prefix_path = "/search")]
+#[OpenApi(tag = "ApiTag::SearchController")]
 impl SearchController {
     #[oai(path = "/", method = "get")]
     pub async fn search(&self, q: Query<String>) -> Result<SearchQueryResponse, SearchQueryError> {
