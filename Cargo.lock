@@ -1318,6 +1318,7 @@ dependencies = [
  "log",
  "poem",
  "poem-openapi",
+ "regex",
  "serde",
  "thiserror",
  "tokio",

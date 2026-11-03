@@ -7,6 +7,7 @@
 use color_eyre::Result;
 use poem_openapi::OpenApiService;
 
+mod constants;
 mod controller;
 mod dto;
 mod error;
