@@ -70,6 +70,21 @@ docker build -f dockerfile -t unducked .
 docker run --rm -p 3000:3000 unducked
 ```
 
+## Docker Compose
+
+Docker compose is recommeded for deployment, as it is much simple and flexible to configure, run and manage. An example
+of `docker-compose.yaml` is provided in the root of the project. To run the service, simply run:
+
+```sh
+docker compose up -d
+```
+
+> **Note:**
+>
+> The provided `docker-compose.yaml` is a very basic example, and build the image from the local Dockerfile. In
+> production, it is recommended to use the pre-built image from the package section, refer the commented lines in the
+> `docker-compose.yaml` for more details.
+
 ## Project layout
 
 ```
