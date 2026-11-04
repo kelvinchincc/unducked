@@ -26,8 +26,8 @@
 #     the container.
 # ==============================================================================
 
-ARG RUST_VERSION=1.95
-ARG RUNTIME_IMAGE=gcr.io/distroless/cc-debian12
+ARG RUST_VERSION=1.99.1
+ARG RUNTIME_IMAGE=gcr.io/distroless/cc-debian13
 
 # Base: Rust toolchain + cargo-chef (installed once)
 FROM rust:${RUST_VERSION}-slim-bookworm AS chef
@@ -49,5 +49,5 @@ RUN cargo build --release
 # Final: runtime image
 FROM ${RUNTIME_IMAGE}
 WORKDIR /app
-COPY --from=builder /app/target/release/__BIN_NAME__ .
-CMD ["./__BIN_NAME__"]
+COPY --from=builder /app/target/release/unducked .
+CMD ["./unducked"]
