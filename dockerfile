@@ -49,5 +49,7 @@ RUN cargo build --release
 # Final: runtime image
 FROM ${RUNTIME_IMAGE}
 WORKDIR /app
-COPY --from=builder /app/target/release/unducked .
+# Copy compiled binary and static assets (if any) from the builder stage
+COPY --from=builder /app/target/release/unducked /app/
+COPY --from=builder /app/static /app/static
 CMD ["./unducked"]
