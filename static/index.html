@@ -1,18 +1,67 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title></title>
+        <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         <link href="css/style.css" rel="stylesheet" />
-        <link
-            rel="search"
-            type="application/opensearchdescription+xml"
-            title="Unducked"
-            href="/opensearch.xml"
-        />
+        <link rel="search" type="application/opensearchdescription+xml" title="Unducked" href="/opensearch.xml" />
+
+        <style>
+            .content {
+                width: min(80vw, 600px);
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .max-content {
+                max-width: 600px;
+            }
+        </style>
     </head>
-    <body>
-        <h1>Hello World!</h1>
+    <body class="text-center flex flex-col align-center justify-center min-h-dvh gap-2">
+        <h1 class="text-5xl mb-3 italic">Unducked</h1>
+        <p>Unducked is not a search engine, Unducked redirect,</p>
+        <p>Add Unducked to your browser as a search engine to start.</p>
+
+        <section class="mt-5">
+            <h2 class="text-3xl mb-2">Add to browser</h2>
+
+            <p class="mb-3 content text-center">
+                Unducked provide opensearch specification, simply on the address bar, right click and click "Add
+                Unducked" to add Unducked as a search engine.
+            </p>
+
+            <div class="flex justify-center">
+                <div class="text-left max-content">
+                    <p class="mb-1.5 text-center">To add Unducked to your browser manually, follow these steps:</p>
+                    <ol class="list-decimal list-inside text-left flex flex-col">
+                        <li>Click on the three dots in the top right corner of your browser.</li>
+                        <li>Select "Settings" from the dropdown menu.</li>
+                        <li>Scroll down and click on "Search engine" or "Manage search engines."</li>
+                        <li>Click on "Add" or "Add a new search engine."</li>
+                        <li>
+                            Fill in the following information:
+                            <ul class="list-disc list-inside ml-6">
+                                <li>Search engine name: Unducked</li>
+                                <li>Keyword: unducked</li>
+                                <li>
+                                    URL with %s in place of query, for example:
+                                    <pre class="border bg-base-200 p-1 px-2 rounded-lg my-2" id="unducked-domain"></pre>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>Click "Add" or "Save" to finish adding Unducked as a search engine.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
     </body>
+
+    <script>
+        const unduckedDomain = window.location.origin;
+        document.getElementById("unducked-domain").textContent = `${unduckedDomain}/search?q=%s`;
+    </script>
 </html>
