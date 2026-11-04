@@ -4,7 +4,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
+pub mod opensearch_metadata;
 pub mod search;
+pub mod static_files;
 
 use poem_openapi::Tags;
 
