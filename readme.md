@@ -86,6 +86,10 @@ static/
 └── index.html                           # Landing page
 ```
 
+## Roadmap
+
+- [No ETA] Configurable default provider, eg instead of Google, use DuckDuckGo or Brave Search.
+
 ## Stack
 
 - [Poem](https://github.com/poem-web/poem) and [poem-openapi](https://github.com/poem-web/poem-openapi) for HTTP, OpenAPI, and Swagger UI
